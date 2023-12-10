@@ -20,9 +20,63 @@ db.connect(err => {
 
 welcomeHeader = () => {
     console.log("***********************************")
-    console.log("*                                 *")
+    console.log("*           Welcome To:           *")
     console.log("*        EMPLOYEE TRACKER         *")
     console.log("*                                 *")
     console.log("***********************************")
-    promptUser();
+    prompts();
 }
+
+const prompts = () => {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'choices',
+            message: 'What would you like to do?',
+            choices: ['View All Employess',
+                       'Add Employee',
+                       'Update Employee Role',
+                       'View All Roles',
+                       'Add Role',
+                       'View All Departments',
+                       'Add Department',
+                       'Exit']
+        }
+    ])
+    .then((userResponse) => {
+        const { choices } = userResponse;
+
+        if (choices === 'View All Employess') {
+            viewEmp();
+        }
+        
+        if (choices === 'Add Employee') {
+            addEmp();
+        }
+
+        if (choices === 'Update Employee Role') {
+            updateEmpRole();
+        }
+
+        if (choices === 'View All Roles') {
+            viewRoles();
+        }
+
+        if (choices === 'Add Role') {
+            addRole();
+        }
+
+        if (choices === 'View All Departments') {
+            viewDept();
+        }
+
+        if (choices === 'Add Department') {
+            addDept();
+        }
+
+        if (choices === 'Exit') {
+            connection.end();
+        }
+    });
+};
+
