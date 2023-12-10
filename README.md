@@ -14,19 +14,19 @@
 + [Questions](#questions)
 
 ## Overview
-The purpose of this project is to create, save & delete notes.
+This is a program that the user can utilize to view & interact with information about personnel in an organization
 
 ## Installation
 ***Install these programs on your computer:***
 + Visual Studio (*Windows users*)<br>
-+ GitBash (*Windows users*)<br> 
++ GitBash (*Windows users*) Or use integrated terminal in Visual Studio<br> 
 + Node.js<br>
 + MySQL2<br>
 
 ***Initialize the application:***<br>
 1. Use command: `npm init -y` to install the Node Package Manager<br> 
-2. Use command: `npm i inquirer@8.2.4` to install the inquirer package needed for this project
-3. Use command: `npm install --save mysql2` to install the UUID package to generate unique identifiers
+2. Use command: `npm i inquirer@8.2.4` to install the inquirer package<br>
+3. Use command: `npm install --save mysql2` to install the MySQL2 package for the database queries<br>
 
 ## Usage
 When user has completed all installation steps:<br> 
@@ -43,4 +43,4 @@ Licensed under the <a href="https://github.com/techmack92/code-quiz/main/LICENSE
 ## Questions
 If you have any questions about this project, use the contact methods below.<br>
 [Email](mailto:mldixon9750@gmail.com)<br>
-[GitHub](https://github.com/techmack92) 
+[GitHub Profile](https://github.com/techmack92) 
