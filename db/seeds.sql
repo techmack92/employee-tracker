@@ -5,16 +5,16 @@ VALUES
     ('Theatre Arts & Film'),
     ('Math & Science');
 
-INSERT INTO role (title, salary, department_id)
+INSERT INTO role (title, department_id, salary)
 VALUES
-    ('Full Stack Developer', '85000', '001'), -- 1
-    ('Software Engineer', '185000', '001'), -- 2
+    ('Full Stack Developer', '001', '85000'), -- 1
+    ('Software Engineer', '001', '185000'), -- 2
     ('Fashion Designer', '120000', '002'), -- 3
-    ('Merchandising Manager', '75000', '002'), -- 4
-    ('Film Director', '285000', '003'), -- 5
-    ('Production Manager', '69000', '003'), -- 6
-    ('Data Scientist', '115000', '004'), -- 7
-    ('Biomedical Research Scientist', '117000', '004'); -- 8
+    ('Merchandising Manager', '002', '75000'), -- 4
+    ('Film Director', '003','285000'), -- 5
+    ('Production Manager', '003', '69000'), -- 6
+    ('Data Scientist', '004', '115000'), -- 7
+    ('Biomedical Research Scientist', '004', '117000'); -- 8
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
@@ -27,4 +27,4 @@ VALUES
     ('Whitney', 'Houston', 1, null),
     ('Jimmy', 'Dixon', 4, null),
     ('Ziggy', 'Mack', 1, 6),
-    ('Eddie', 'Murphy', 5, 5),
+    ('Eddie', 'Murphy', 5, 5);

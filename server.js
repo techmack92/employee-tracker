@@ -10,11 +10,10 @@ const db = mysql.createConnection(
         password: 'bootc@mp',
         database: 'emp_db'
     },
-    console.log('Connected to the emp_db database ✅')
 );
 db.connect(err => {
     if (err) throw err;
-    console.log('Connected 🔗');
+    console.log('Connected to the emp_db database ✅')
     welcomeHeader();
 })
 
@@ -96,5 +95,10 @@ viewEmp = () => {
               FROM employee
                 LEFT JOIN role ON employee.role_id = role.id
                 LEFT JOIN department ON role.department_id = department.id
-              `)
-}
+              `,
+              (err, results) => {
+                if (err) throw err;
+                console.table(results);
+                prompts();
+              })
+};

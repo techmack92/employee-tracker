@@ -27,6 +27,7 @@ This is a program that the user can utilize to view & interact with information 
 1. Use command: `npm init -y` to install the Node Package Manager<br> 
 2. Use command: `npm i inquirer@8.2.4` to install the inquirer package<br>
 3. Use command: `npm install --save mysql2` to install the MySQL2 package for the database queries<br>
+3. Use command: `npm install console.table` to install the console table package for table formatting purposes<br>
 
 ## Usage
 When user has completed all installation steps:<br> 
