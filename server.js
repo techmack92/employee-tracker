@@ -33,7 +33,7 @@ const prompts = () => {
             type: 'list',
             name: 'choices',
             message: 'What would you like to do?',
-            choices: ['View All Employess',
+            choices: ['View All Employees',
                        'Add Employee',
                        'Update Employee Role',
                        'View All Roles',
@@ -46,7 +46,7 @@ const prompts = () => {
     .then((userResponse) => {
         const { choices } = userResponse;
 
-        if (choices === 'View All Employess') {
+        if (choices === 'View All Employees') {
             viewEmp();
         }
         
@@ -75,8 +75,26 @@ const prompts = () => {
         }
 
         if (choices === 'Exit') {
-            connection.end();
+            db.end();
         }
     });
 };
 
+// Function to view employees
+viewEmp = () => {
+    console.log("***********************************")
+    console.log("*           Employees:            *")
+    console.log("***********************************")
+
+    db.query(`SELECT employee.id, 
+                employee.first_name,
+                employee.last_name,
+                role.title,
+                department.name AS department,
+                role.salary,
+                employee.manager_id
+              FROM employee
+                LEFT JOIN role ON employee.role_id = role.id
+                LEFT JOIN department ON role.department_id = department.id
+              `)
+}
