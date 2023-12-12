@@ -39,7 +39,7 @@ When user has completed all installation steps:<br>
 If you have any contributing ideas for this project, contact me using the methods in [Questions](#questions) section
 
 ## License
-Licensed under the <a href="https://github.com/techmack92/code-quiz/main/LICENSE"> **MIT**</a> license.
+Licensed under the <a href="https://github.com/techmack92/employee-tracker/main/LICENSE"> **MIT**</a> license.
 
 ## Questions
 If you have any questions about this project, use the contact methods below.<br>
