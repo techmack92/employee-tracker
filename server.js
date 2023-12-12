@@ -30,7 +30,7 @@ welcomeHeader = () => {
     console.log("   ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ██╔══╝  ██╔══██╗            ");
     console.log("   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗███████╗██║  ██║            ");
     console.log("   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝            ");
-        prompts();
+    prompts();
 }
 
 
@@ -111,96 +111,7 @@ viewEmp = () => {
               })
 };
 
-// Function to add employees
-// addEmp = () => {
-//     inquirer.prompt([
-//         {
-//             type: 'input',
-//             name: 'firstName',
-//             message: "What is the employee's first name?",
-//             validate: addFirst => {
-//                 if (addFirst) {
-//                     return true;
-//                 } else {
-//                     console.log('Please enter a first name.');
-//                     return false;
-//                 }
-//             }
-//         },
-
-//         {
-//             type: 'input',
-//             name: 'lastName',
-//             message: "What is the employee's last name?",
-//             validate: addFirst => {
-//                 if (addFirst) {
-//                     return true;
-//                 } else {
-//                     console.log('Please enter a last name.');
-//                     return false;
-//                 }
-//             }
-
-//         }
-//     ])
-//     .then(answer => {
-//         const params = [answer.firstName, answer.lastName]
-
-//         // Get role id and role title 
-//         const roleQuery = `SELECT role.id, role.title FROM role`;
-
-//         db.promise().query(roleQuery, (err, data) => {
-//             if (err) throw err;
-//             // Creates new array by destructuring & extracting id/title, then creating new obj with name & value
-//             // (data.map is a method that iterates over each element of the 'data' array)
-//             const roles = data.map(({ id, title}) => ({ name: title, value: id }));
-
-//             inquirer.prompt([
-//                 {
-//                     type: 'list',
-//                     name: 'role',
-//                     message: "What is the employee's role?",
-//                     choices: roles
-//                 }
-//             ])
-//             .then(roleChoice => {
-//                 const role = roleChoice.role;
-//                 params.push(role);
-
-//                 const mgrQuery = `SELECT * FROM employee`;
-
-//                 db.promise().query(mgrQuery, (err, data) => {
-//                     if (err) throw err;
-//                     const mgrs = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
-
-//                     inquirer.prompt([
-//                         {
-//                             type: 'list',
-//                             name: 'manager',
-//                             message: "Who is the employee's manager?",
-//                             choices: mgrs
-//                         }
-//                     ])
-//                     .then(mgrChoice => {
-//                         const mgr = mgrChoice.manager
-//                         params.push(manager);
-
-//                         const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-//                                         VALUES (?, ?, ?, ?)`;
-//                         db.query(query, params, (err, results) => {
-//                             if (err) throw err;
-//                             console.log('Employee has been added✨');
-//                             viewEmp();
-//                         });
-//                     });
-//                 });
-//             });
-//         });
-//     });
-// };
-
-
-
+// Function to add employee
 addEmp = () => {
     inquirer.prompt([
         {
@@ -216,6 +127,7 @@ addEmp = () => {
                 }
             }
         },
+
         {
             type: 'input',
             name: 'lastName',
@@ -233,13 +145,13 @@ addEmp = () => {
     .then(answer => {
         const params = [answer.firstName, answer.lastName];
 
-        // Get role id and role title
+        // Get role id & role title
         const roleQuery = `SELECT role.id, role.title FROM role`;
 
         db.promise().query(roleQuery)
             .then(([data]) => {
                 // Creates new array by destructuring & extracting id/title, then creating new obj with name & value
-                // (data.map is a method that iterates over each element of the 'data' array)
+                // (`.map` is a method that iterates over each element of the 'data' array)
                 const roles = data.map(({ id, title }) => ({ name: title, value: id }));
 
                 inquirer.prompt([
@@ -303,4 +215,138 @@ addEmp = () => {
     .catch(error => {
         throw error;
     });
+};
+
+// Function to update employee role
+// updateEmpRole = () => {
+//     // Get employees
+//     const empQuery = `SELECT * FROM employee`;
+
+//     db.promise().query(empQuery)
+//         .then(([data]) => {
+//             const emp = data.map(({ id, first_name, last_name }) => ({ 
+//                 name: first_name + " " + last_name, 
+//                 value: id 
+//             }));
+
+//             inquirer.prompt([
+//                 {
+//                     type: 'list',
+//                     name: 'name',
+//                     message: "Which employee role would you like to update?",
+//                     choices: emp
+//                 }
+//             ])
+//             .then(empChoice => {
+//                 const empID = empChoice.name;
+//                 const params = [];
+//                 params.push(employee);
+
+//                 // Get roles
+//                 const roleQuery =  `SELECT * FROM role`;
+
+//                 db.promise().query(roleQuery)
+//                     .then(([data]) => {
+//                         const roles = data.map(({ id, title }) => ({ name: title, value: id }));
+
+//                         inquirer.prompt([
+//                             {
+//                                 type: 'list',
+//                                 name: 'role',
+//                                 message: "What is the new role?",
+//                                 choices: roles
+//                             }
+//                         ])
+//                         .then(roleChoice => {
+//                             const role = roleChoice.role;
+//                             params.push(role);
+
+//                             let emp = params[0]
+//                             params[0] = role
+//                             params[1] = emp
+
+//                             const query = `UPDATE employee SET role_id = ? WHERE id = ?`;
+//                             return db.promise().query(query, params);
+//                         })
+//                         .then(() => {
+//                         console.log('Employee has been added✨');
+//                         viewEmp();
+//                     })
+//                     .catch(err => {
+//                     throw err;
+//                 });
+//             });
+//         });
+// };
+
+
+// Function to update employee role
+updateEmpRole = () => {
+    // Get employees
+    const empQuery = `SELECT * FROM employee`;
+
+    db.promise().query(empQuery)
+        .then(([data]) => {
+            const emp = data.map(({ id, first_name, last_name }) => ({ 
+                name: first_name + " " + last_name, 
+                value: id 
+            }));
+
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employee',
+                    message: "Which employee's role would you like to update?",
+                    choices: emp
+                }
+            ])
+            .then(empChoice => {
+                const employeeId = empChoice.employee;
+
+                // Get roles
+                const roleQuery =  `SELECT * FROM role`;
+
+                db.promise().query(roleQuery)
+                    .then(([data]) => {
+                        const roles = data.map(({ id, title }) => ({ name: title, value: id }));
+
+                        inquirer.prompt([
+                            {
+                                type: 'list',
+                                name: 'role',
+                                message: "What is the new role?",
+                                choices: roles
+                            }
+                        ])
+                        .then(roleChoice => {
+                            const newRoleId = roleChoice.role;
+
+                            // Update employee role
+                            const query = `UPDATE employee SET role_id = ? WHERE id = ?`;
+                            const params = [newRoleId, employeeId];
+
+                            db.promise().query(query, params)
+                                .then(() => {
+                                    console.log('Employee role has been updated✨');
+                                    viewEmp();
+                                })
+                                .catch(err => {
+                                    throw err;
+                                });
+                        })
+                        .catch(error => {
+                            throw error;
+                        });
+                    })
+                    .catch(error => {
+                        throw error;
+                    });
+            })
+            .catch(error => {
+                throw error;
+            });
+        })
+        .catch(error => {
+            throw error;
+        });
 };
