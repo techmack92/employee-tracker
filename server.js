@@ -368,10 +368,27 @@ addRole = () => {
 
                     db.query(query, params, (err, result) => {
                         if (err) throw err;
-                        console.log(answer.role + " was added to 'Roles'");
+                        console.log(answer.role + " was added to 'Roles'✨");
                         viewRoles();
                     });
                 });
             });
     });
+};
+
+// Function to view departments
+viewDept = () => {
+    console.log("***********************************")
+    console.log("*          Departments:           *")
+    console.log("***********************************")
+
+    db.query(`SELECT department.id,
+                department.name AS department
+              FROM department
+              `,
+              (err, results) => {
+                if (err) throw err;
+                console.table(results);
+                prompts();
+              })
 };
