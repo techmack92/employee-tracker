@@ -34,6 +34,7 @@ When user has completed all installation steps:<br>
 1. Begin the application by using command: `node server.js`<br> 
 
 ## Demo
+[Demo Walkthrough](https://drive.google.com/file/d/1LFkI4CpzEfhF-LeU8bSKANAnWoj8nnEl/view?usp=sharing)<br>
 
 ## Contributing
 If you have any contributing ideas for this project, contact me using the methods in [Questions](#questions) section

@@ -194,7 +194,7 @@ addEmp = () => {
                                 return db.promise().query(query, params);
                             })
                             .then(() => {
-                                console.log('Employee has been added✨');
+                                console.log(answer.firstName + " " + answer.lastName + " has been added to 'Employees'✨");
                                 viewEmp();
                             })
                             .catch(error => {
@@ -368,7 +368,7 @@ addRole = () => {
 
                     db.query(query, params, (err, result) => {
                         if (err) throw err;
-                        console.log(answer.role + " was added to 'Roles'✨");
+                        console.log(answer.role + " has been added to 'Roles'✨");
                         viewRoles();
                     });
                 });
@@ -391,4 +391,32 @@ viewDept = () => {
                 console.table(results);
                 prompts();
               })
+};
+
+// Function to add department
+addDept = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'newDept',
+            message: 'What is the name of the department you would like to add?',
+            validate: newDept => {
+                if (newDept) {
+                    return true;
+                } else {
+                    console.log('Please enter a department name.');
+                    return false;
+                }
+            }
+        }
+    ])
+    .then(answer => {
+        const query = `INSERT INTO department (name)
+                        VALUES (?)`;
+        db.query(query, answer.newDept, (err, results) => {
+            if (err) throw err;
+            console.log(answer.newDept + " has been added to 'Departments'✨");
+            viewDept();
+        });
+    });
 };
