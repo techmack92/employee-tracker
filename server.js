@@ -298,7 +298,8 @@ viewRoles = () => {
     // INNER JOIN returns matching rows from both tables
     db.query(`SELECT role.id,
                 role.title, 
-                department.name AS department
+                department.name AS department,
+                salary
               FROM role
                 INNER JOIN department ON role.department_id = department.id
               `,
@@ -307,4 +308,70 @@ viewRoles = () => {
                 console.table(results);
                 prompts();
               })
+};
+
+// Function to add role
+addRole = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'role',
+            message: "What is the role name?",
+            validate: addRole => {
+                if (addRole) {
+                    return true;
+                } else {
+                    console.log('Please enter a role name.');
+                    return false;
+                }
+            }
+        },
+
+        {
+            type: 'input',
+            name: 'salary',
+            message: "What is the role's salary?",
+            validate: addSalary => {
+                if (addSalary) {
+                    return true;
+                } else {
+                    console.log('Please enter a salary amount.');
+                    return false;
+                }
+            }
+        }
+    ])
+    .then(answer => {
+        const params = [answer.role, answer.salary];
+
+        // Get department table
+        const roleQuery = `SELECT * FROM department`;
+
+        db.promise().query(roleQuery)
+            .then(([data]) => {
+                const dept = data.map(({ name, id}) => ({ name: name, value: id }));
+
+                inquirer.prompt([
+                    {
+                        type: 'input',
+                        name: 'dept',
+                        message: "To which department does this role belong?",
+                        choices: dept         
+                    }
+                ])
+                .then(deptChoice => {
+                    const dept = deptChoice.dept;
+                    params.push(dept);
+
+                    const query = `INSERT INTO role (title, salary, department_id)
+                                    Values (?, ?, ?)`;
+
+                    db.query(query, params, (err, result) => {
+                        if (err) throw err;
+                        console.log(answer.role + " was added to 'Roles'");
+                        viewRoles();
+                    });
+                });
+            });
+    });
 };
