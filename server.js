@@ -93,6 +93,7 @@ viewEmp = () => {
     console.log("*           Employees:            *")
     console.log("***********************************")
 
+    // LEFT JOIN returns all the rows in left table and matching rows from right table
     db.query(`SELECT employee.id, 
                 employee.first_name,
                 employee.last_name,
@@ -218,69 +219,6 @@ addEmp = () => {
 };
 
 // Function to update employee role
-// updateEmpRole = () => {
-//     // Get employees
-//     const empQuery = `SELECT * FROM employee`;
-
-//     db.promise().query(empQuery)
-//         .then(([data]) => {
-//             const emp = data.map(({ id, first_name, last_name }) => ({ 
-//                 name: first_name + " " + last_name, 
-//                 value: id 
-//             }));
-
-//             inquirer.prompt([
-//                 {
-//                     type: 'list',
-//                     name: 'name',
-//                     message: "Which employee role would you like to update?",
-//                     choices: emp
-//                 }
-//             ])
-//             .then(empChoice => {
-//                 const empID = empChoice.name;
-//                 const params = [];
-//                 params.push(employee);
-
-//                 // Get roles
-//                 const roleQuery =  `SELECT * FROM role`;
-
-//                 db.promise().query(roleQuery)
-//                     .then(([data]) => {
-//                         const roles = data.map(({ id, title }) => ({ name: title, value: id }));
-
-//                         inquirer.prompt([
-//                             {
-//                                 type: 'list',
-//                                 name: 'role',
-//                                 message: "What is the new role?",
-//                                 choices: roles
-//                             }
-//                         ])
-//                         .then(roleChoice => {
-//                             const role = roleChoice.role;
-//                             params.push(role);
-
-//                             let emp = params[0]
-//                             params[0] = role
-//                             params[1] = emp
-
-//                             const query = `UPDATE employee SET role_id = ? WHERE id = ?`;
-//                             return db.promise().query(query, params);
-//                         })
-//                         .then(() => {
-//                         console.log('Employee has been added✨');
-//                         viewEmp();
-//                     })
-//                     .catch(err => {
-//                     throw err;
-//                 });
-//             });
-//         });
-// };
-
-
-// Function to update employee role
 updateEmpRole = () => {
     // Get employees
     const empQuery = `SELECT * FROM employee`;
@@ -349,4 +287,24 @@ updateEmpRole = () => {
         .catch(error => {
             throw error;
         });
+};
+
+// Function to view roles
+viewRoles = () => {
+    console.log("***********************************")
+    console.log("*           Roles:                *")
+    console.log("***********************************")
+
+    // INNER JOIN returns matching rows from both tables
+    db.query(`SELECT role.id,
+                role.title, 
+                department.name AS department
+              FROM role
+                INNER JOIN department ON role.department_id = department.id
+              `,
+              (err, results) => {
+                if (err) throw err;
+                console.table(results);
+                prompts();
+              })
 };
